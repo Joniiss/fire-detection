@@ -54,19 +54,15 @@ void enviar_msg(int x, int y){
 	
 	nodes[x][y].C = 0;
 
-	//	Nó de cima
 	memcpy(nodes[x-1][y].baixo, nodes[x][y].centro, sizeof(nodes[x][y].centro));
 	nodes[x-1][y].B = 1;
 	
-	//	Nó de baixo
 	memcpy(nodes[x+1][y].cima, nodes[x][y].centro, sizeof(nodes[x][y].centro));
 	nodes[x+1][y].CM = 1;
 	
-	//	Nó da direita
 	memcpy(nodes[x][y+1].esquerda, nodes[x][y].centro, sizeof(nodes[x][y].centro));
 	nodes[x][y+1].E = 1;
 	
-	// Nó da esquerda
 	memcpy(nodes[x][y-1].direita, nodes[x][y].centro, sizeof(nodes[x][y].centro));
 	nodes[x][y-1].D = 1;
 }
@@ -76,47 +72,47 @@ void prop_msg(int x, int y){
 		return;
 	int ok = 0;
 	size_t size = sizeof(nodes[x][y].centro);
-	if (nodes[x][y].CM == 1) //Recebeu de cima, manda para todos os outros
+	if (nodes[x][y].CM == 1)
 	{
 		nodes[x][y].CM = 0;
-		memcpy(nodes[x+1][y].cima, nodes[x][y].cima,size); //Nó de baixo
+		memcpy(nodes[x+1][y].cima, nodes[x][y].cima,size);
 		nodes[x+1][y].CM = 1;
-		memcpy(nodes[x][y+1].esquerda, nodes[x][y].cima,size); //Nó da direita
+		memcpy(nodes[x][y+1].esquerda, nodes[x][y].cima,size);
 		nodes[x][y+1].E = 1;
-		memcpy(nodes[x][y-1].direita, nodes[x][y].cima,size); //Nó da esquerda
+		memcpy(nodes[x][y-1].direita, nodes[x][y].cima,size);
 		nodes[x][y-1].D = 1;
 		ok = 1;
 	}
-	else if (nodes[x][y].B == 1) //Recebeu de baixo, manda para todos os outros
+	else if (nodes[x][y].B == 1)
 	{
 		nodes[x][y].B = 0;
-		memcpy(nodes[x-1][y].baixo, nodes[x][y].baixo,size); //Nó de cima
+		memcpy(nodes[x-1][y].baixo, nodes[x][y].baixo,size);
 		nodes[x-1][y].B = 1;
-		memcpy(nodes[x][y+1].esquerda, nodes[x][y].baixo,size); //Nó da direita
+		memcpy(nodes[x][y+1].esquerda, nodes[x][y].baixo,size); 
 		nodes[x][y+1].E = 1;
-		memcpy(nodes[x][y-1].direita, nodes[x][y].baixo,size); //Nó da esquerda
+		memcpy(nodes[x][y-1].direita, nodes[x][y].baixo,size);
 		nodes[x][y-1].D = 1;
 		ok = 1;
 	}
-	else if (nodes[x][y].E == 1) //Recebeu da esquerda, manda para todos os outros
+	else if (nodes[x][y].E == 1)
 	{
 		nodes[x][y].E = 0;
-		memcpy(nodes[x-1][y].baixo, nodes[x][y].esquerda,size); //Nó de cima
+		memcpy(nodes[x-1][y].baixo, nodes[x][y].esquerda,size);
 		nodes[x-1][y].B = 1;
-		memcpy(nodes[x+1][y].cima, nodes[x][y].esquerda,size); //Nó de baixo
+		memcpy(nodes[x+1][y].cima, nodes[x][y].esquerda,size);
 		nodes[x+1][y].CM = 1;
-		memcpy(nodes[x][y+1].esquerda, nodes[x][y].esquerda,size); //Nó da direita
+		memcpy(nodes[x][y+1].esquerda, nodes[x][y].esquerda,size);
 		nodes[x][y+1].E = 1;
 		ok = 1;
 	}
-	else if (nodes[x][y].D == 1) //Recebeu da direita, manda para todos os outros
+	else if (nodes[x][y].D == 1)
 	{
 		nodes[x][y].D = 0;
-		memcpy(nodes[x-1][y].baixo, nodes[x][y].direita,size); //Nó de cima
+		memcpy(nodes[x-1][y].baixo, nodes[x][y].direita,size);
 		nodes[x-1][y].B = 1;
-		memcpy(nodes[x+1][y].cima, nodes[x][y].direita,size); //Nó de baixo
+		memcpy(nodes[x+1][y].cima, nodes[x][y].direita,size);
 		nodes[x+1][y].CM = 1;
-		memcpy(nodes[x][y-1].direita, nodes[x][y].direita,size); //Nó da esquerda
+		memcpy(nodes[x][y-1].direita, nodes[x][y].direita,size);
 		nodes[x][y-1].D = 1;
 		ok = 1;
 	}
@@ -159,11 +155,9 @@ void *print_floresta(void *args){
 	while(1)
 	{
 		pthread_mutex_lock(&mtx_prt);
-		//printf(BGGRN);
 		system("clear");
 		int idx, idy;
 		int sensor = 0;
-		//printf("\t");
 		
 		for (int i = 0; i < TAM; ++i)
 		{
